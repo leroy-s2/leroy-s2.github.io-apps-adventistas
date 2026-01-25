@@ -151,46 +151,6 @@ const HomePage = () => {
               Estamos abiertos a nuevas ideas. Cuéntanos qué aplicación sería útil para ti o tu iglesia.
             </p>
           </div>
-
-          <form onSubmit={handleSuggestionSubmit} className="glass-card rounded-2xl p-6 md:p-8">
-            <div className="space-y-4">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
-                  Tu nombre (opcional)
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  value={suggestionName}
-                  onChange={(e) => setSuggestionName(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-adventist-accent focus:ring-1 focus:ring-adventist-accent outline-none transition-all"
-                  placeholder="Tu nombre"
-                />
-              </div>
-              <div>
-                <label htmlFor="suggestion" className="block text-sm font-medium text-gray-300 mb-2">
-                  Tu sugerencia de proyecto
-                </label>
-                <textarea
-                  id="suggestion"
-                  value={suggestion}
-                  onChange={(e) => setSuggestion(e.target.value)}
-                  required
-                  rows={4}
-                  className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-adventist-accent focus:ring-1 focus:ring-adventist-accent outline-none transition-all resize-none"
-                  placeholder="Ejemplo: Una aplicación para estudiar la lección de Escuela Sabática..."
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-adventist-accent text-adventist-dark font-semibold download-btn"
-              >
-                <Send size={18} />
-                <span>Enviar Sugerencia</span>
-              </button>
-            </div>
-          </form>
-
           {/* Comentarios de la comunidad con Disqus */}
           <div className="mt-8">
             <Comments
