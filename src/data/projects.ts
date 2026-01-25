@@ -41,9 +41,9 @@ Ideal para cultos, estudios bíblicos, momentos devocionales personales, o simpl
       },
       {
         platform: 'linux',
-        url: '', // Aquí irá el link de MEGA para Linux
+        url: 'https://upeuedupe-my.sharepoint.com/:u:/g/personal/angel_silva_s_upeu_edu_pe/IQDhD9t7NrIGRJN61JIi514HAXCoq3Y5hpDdHvvj1OBdCYw?e=RuAfwn&download=1',
         fileName: 'HimnarioAdventista.AppImage',
-        fileSize: '3.30 GB',
+        fileSize: '3.28 GB',
         status: 'available',
       },
       {

@@ -46,7 +46,7 @@ const HomePage = () => {
                 </div>
                 <div className="glass-card rounded-lg px-4 py-2">
                   <span className="text-gray-400 text-xs">Tamaño</span>
-                  <p className="text-white font-semibold">3.30 GB</p>
+                  <p className="text-white font-semibold">3.28 GB</p>
                 </div>
                 <div className="glass-card rounded-lg px-4 py-2">
                   <span className="text-gray-400 text-xs">Precio</span>
