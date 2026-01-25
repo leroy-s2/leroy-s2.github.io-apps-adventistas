@@ -1,60 +1,87 @@
 import { useEffect, useRef } from 'react';
 
 interface CommentsProps {
-  /** Identificador único para el hilo de comentarios (ej: 'himnario-adventista' o 'sugerencias') */
-  issueId: string;
-  /** Título descriptivo para la sección */
+  /** Identificador único para el hilo de comentarios */
+  identifier: string;
+  /** URL de la página (opcional, se usa location.href por defecto) */
+  url?: string;
+  /** Título de la página (opcional) */
   title?: string;
-  /** Descripción adicional */
-  description?: string;
 }
 
-const Comments = ({
-  issueId,
-  title = '💬 Comentarios y Soporte',
-  description = '¿Tienes preguntas, sugerencias o problemas? Deja tu comentario aquí y te responderé lo antes posible. Necesitas una cuenta de GitHub para comentar.'
-}: CommentsProps) => {
-  const commentsRef = useRef<HTMLDivElement>(null);
+// Definir la configuración de Disqus
+interface DisqusConfig {
+  page: {
+    url: string;
+    identifier: string;
+    title: string;
+  };
+}
+
+declare global {
+  interface Window {
+    DISQUS: {
+      reset: (config: { reload: boolean; config: () => void }) => void;
+    };
+  }
+}
+
+const Comments = ({ identifier, url, title }: CommentsProps) => {
+  const disqusRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Limpiar cualquier script previo de Utterances
-    if (commentsRef.current) {
-      commentsRef.current.innerHTML = '';
-    }
+    const disqusShortname = 'adventlink';
+    const pageUrl = url || window.location.href;
+    const pageIdentifier = identifier;
+    const pageTitle = title || document.title;
 
-    const script = document.createElement('script');
-    script.src = 'https://utteranc.es/client.js';
-    script.setAttribute('repo', 'leroy-s2/leroy-s2.github.io-apps-adventistas');
-    script.setAttribute('issue-term', issueId);
-    script.setAttribute('label', '💬 comentarios');
-    script.setAttribute('theme', 'github-dark');
-    script.setAttribute('crossorigin', 'anonymous');
-    script.async = true;
+    // Crear configuración de Disqus
+    const disqusConfig = function (this: DisqusConfig) {
+      this.page = {
+        url: pageUrl,
+        identifier: pageIdentifier,
+        title: pageTitle
+      };
+    };
 
-    if (commentsRef.current) {
-      commentsRef.current.appendChild(script);
+    // Asignar al objeto global window
+    (window as any).disqus_config = disqusConfig;
+
+    // Si Disqus ya está cargado, resetear
+    if (window.DISQUS) {
+      window.DISQUS.reset({
+        reload: true,
+        config: disqusConfig
+      });
+    } else {
+      // Cargar Disqus por primera vez
+      const script = document.createElement('script');
+      script.src = `https://${disqusShortname}.disqus.com/embed.js`;
+      script.setAttribute('data-timestamp', String(+new Date()));
+      script.async = true;
+      document.body.appendChild(script);
     }
 
     return () => {
-      // Cleanup al desmontar o cambiar issueId
-      if (commentsRef.current) {
-        commentsRef.current.innerHTML = '';
+      // Cleanup: remover el iframe de Disqus al desmontar
+      if (disqusRef.current) {
+        disqusRef.current.innerHTML = '';
       }
     };
-  }, [issueId]);
+  }, [identifier, url, title]);
 
   return (
     <div className="glass-card rounded-2xl p-6 animate-fade-in">
       <h2 className="text-xl font-bold text-white mb-4 font-serif flex items-center gap-2">
-        {title}
+        💬 Comentarios
       </h2>
       <p className="text-gray-400 text-sm mb-6">
-        {description}
+        ¿Tienes preguntas, sugerencias o comentarios? ¡Déjanos saber! Puedes iniciar sesión con Google, Facebook o crear una cuenta de Disqus.
       </p>
-      <div
-        ref={commentsRef}
-        className="utterances-container min-h-[200px]"
-      />
+      <div id="disqus_thread" ref={disqusRef} className="disqus-container" />
+      <noscript>
+        Por favor habilita JavaScript para ver los comentarios.
+      </noscript>
     </div>
   );
 };

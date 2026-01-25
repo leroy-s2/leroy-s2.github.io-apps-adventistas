@@ -115,8 +115,8 @@ const ProjectDetailPage = () => {
               <div className="flex items-center gap-3 mb-2">
                 <h1 className="text-3xl md:text-4xl font-bold text-white font-serif">{project.name}</h1>
                 <span className={`px-3 py-1 rounded-full text-xs font-semibold ${project.status === 'available'
-                    ? 'bg-green-500/20 text-green-400'
-                    : 'bg-yellow-500/20 text-yellow-400'
+                  ? 'bg-green-500/20 text-green-400'
+                  : 'bg-yellow-500/20 text-yellow-400'
                   }`}>
                   {project.status === 'available' ? 'Disponible' : 'Próximamente'}
                 </span>
@@ -269,8 +269,8 @@ const ProjectDetailPage = () => {
                   <div
                     key={download.platform}
                     className={`transition-all duration-500 rounded-xl ${highlightedPlatform === download.platform
-                        ? 'ring-4 ring-adventist-accent ring-offset-2 ring-offset-adventist-dark animate-pulse'
-                        : ''
+                      ? 'ring-4 ring-adventist-accent ring-offset-2 ring-offset-adventist-dark animate-pulse'
+                      : ''
                       }`}
                   >
                     {download.status === 'available' && download.url ? (
@@ -327,7 +327,7 @@ const ProjectDetailPage = () => {
 
         {/* Comments Section */}
         <div className="mt-8">
-          <Comments issueId={project.id} />
+          <Comments identifier={project.id} title={project.name} />
         </div>
       </div>
     </div>

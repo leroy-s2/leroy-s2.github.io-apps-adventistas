@@ -191,12 +191,11 @@ const HomePage = () => {
             </div>
           </form>
 
-          {/* Comentarios de la comunidad con Utterances */}
+          {/* Comentarios de la comunidad con Disqus */}
           <div className="mt-8">
             <Comments
-              issueId="sugerencias-de-apps"
-              title="💡 Sugerencias de la Comunidad"
-              description="¡Deja tu sugerencia aquí y la comunidad podrá votar! Necesitas una cuenta de GitHub para comentar."
+              identifier="sugerencias-de-apps"
+              title="Sugerencias de Apps"
             />
           </div>
         </div>

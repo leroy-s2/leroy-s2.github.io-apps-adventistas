@@ -9,8 +9,12 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Brand */}
           <div className="flex items-center space-x-2">
-            <span className="text-2xl">✝️</span>
-            <h3 className="text-lg font-bold text-white font-serif">Apps Adventistas</h3>
+            <img
+              src={`${import.meta.env.BASE_URL}image.png`}
+              alt="AdventLink"
+              className="h-8 w-auto"
+            />
+            <h3 className="text-lg font-bold text-white font-serif">AdventLink</h3>
           </div>
 
           {/* Social */}
@@ -29,7 +33,7 @@ const Footer = () => {
         {/* Disclaimer */}
         <div className="mt-6 pt-6 border-t border-white/10">
           <p className="text-gray-500 text-xs text-center mb-4 max-w-2xl mx-auto">
-            ⚠️ Este es un <strong>proyecto personal independiente</strong> creado por un miembro de la Iglesia Adventista del Séptimo Día. 
+            ⚠️ Este es un <strong>proyecto personal independiente</strong> creado por un miembro de la Iglesia Adventista del Séptimo Día.
             No es un sitio oficial ni está afiliado, patrocinado o respaldado por la organización oficial de la Iglesia Adventista del Séptimo Día.
           </p>
         </div>
