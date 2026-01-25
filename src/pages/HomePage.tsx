@@ -1,6 +1,5 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Monitor, Apple, Heart, Send, Lightbulb } from 'lucide-react';
+import { Monitor, Apple, Heart, Lightbulb } from 'lucide-react';
 import Comments from '../components/Comments';
 
 // Icono de Linux
@@ -11,15 +10,6 @@ const LinuxIcon = ({ className }: { className?: string }) => (
 );
 
 const HomePage = () => {
-  const [suggestion, setSuggestion] = useState('');
-  const [suggestionName, setSuggestionName] = useState('');
-
-  const handleSuggestionSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const mailtoLink = `mailto:leroy@appsadventistas.com?subject=Sugerencia de proyecto&body=Nombre: ${suggestionName}%0A%0ASugerencia:%0A${suggestion}`;
-    window.location.href = mailtoLink;
-  };
-
   return (
     <div className="min-h-screen pt-16">
       {/* Hero Section - Himnario Adventista */}
