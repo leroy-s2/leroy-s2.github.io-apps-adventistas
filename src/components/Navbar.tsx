@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Home, ChevronDown, Music, Monitor, Apple } from 'lucide-react';
 import { projects } from '../data/projects';
 
@@ -14,7 +14,6 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isAppsOpen, setIsAppsOpen] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
   const dropdownRef = useRef<HTMLDivElement>(null);
   const mobileAppsRef = useRef<HTMLDivElement>(null);
 
