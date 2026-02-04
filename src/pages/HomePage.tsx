@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Monitor, Apple, Heart, Lightbulb } from 'lucide-react';
+import { Monitor, Apple, Heart, Lightbulb, Wifi } from 'lucide-react';
 import Comments from '../components/Comments';
 
 // Icono de Linux
@@ -38,15 +38,25 @@ const HomePage = () => {
                 Accede a todos los himnos con letra, versión cantada y pista instrumental.
               </p>
 
+              {/* Online/Offline Badge */}
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-500/20 to-green-500/20 border border-blue-500/30 mb-6">
+                <Wifi size={16} className="text-blue-400" />
+                <span className="text-blue-300 text-sm font-medium">Funciona Online y Offline</span>
+              </div>
+
               {/* Version & Info */}
               <div className="flex flex-wrap gap-4 mb-8">
                 <div className="glass-card rounded-lg px-4 py-2">
                   <span className="text-gray-400 text-xs">Versión</span>
-                  <p className="text-white font-semibold">1.6</p>
+                  <p className="text-white font-semibold">8.5</p>
                 </div>
                 <div className="glass-card rounded-lg px-4 py-2">
-                  <span className="text-gray-400 text-xs">Tamaño</span>
-                  <p className="text-white font-semibold">3.28 GB</p>
+                  <span className="text-gray-400 text-xs">Instalador</span>
+                  <p className="text-white font-semibold">~100 MB</p>
+                </div>
+                <div className="glass-card rounded-lg px-4 py-2">
+                  <span className="text-gray-400 text-xs">Data Offline</span>
+                  <p className="text-purple-400 font-semibold">3.23 GB</p>
                 </div>
                 <div className="glass-card rounded-lg px-4 py-2">
                   <span className="text-gray-400 text-xs">Precio</span>

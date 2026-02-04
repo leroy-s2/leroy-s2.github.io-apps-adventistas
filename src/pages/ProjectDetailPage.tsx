@@ -1,6 +1,6 @@
 import { useParams, Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Download, ArrowLeft, Check, Monitor, Apple, Clock, FileText, ExternalLink, X, Minus, WifiOff, Music } from 'lucide-react';
+import { Download, ArrowLeft, Check, Monitor, Apple, Clock, FileText, ExternalLink, X, Minus, Wifi, WifiOff, Music, Database } from 'lucide-react';
 import { getProjectById } from '../data/projects';
 import Comments from '../components/Comments';
 
@@ -196,13 +196,13 @@ const ProjectDetailPage = () => {
         <div className="mb-8 animate-fade-in" style={{ animationDelay: '0.15s' }}>
           <h2 className="text-xl font-bold text-white mb-4 font-serif">Características Principales</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {/* Feature 1 - Offline */}
+            {/* Feature 1 - Online/Offline */}
             <div className="glass-card rounded-xl p-4 text-center">
               <div className="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                <WifiOff className="text-green-400" size={20} />
+                <Wifi className="text-green-400" size={20} />
               </div>
-              <h3 className="text-sm font-semibold text-white mb-1">Sin Internet</h3>
-              <p className="text-gray-400 text-xs">100% offline</p>
+              <h3 className="text-sm font-semibold text-white mb-1">Online/Offline</h3>
+              <p className="text-gray-400 text-xs">Funciona con o sin internet</p>
             </div>
 
             {/* Feature 2 - Letra */}
@@ -262,9 +262,22 @@ const ProjectDetailPage = () => {
           {/* Sidebar - Downloads */}
           <div className="lg:col-span-1" id="download-section">
             <div className="glass-card rounded-2xl p-6 sticky top-24 animate-fade-in" style={{ animationDelay: '0.3s' }}>
-              <h2 className="text-xl font-bold text-white mb-6 font-serif">Descargar</h2>
+              <h2 className="text-xl font-bold text-white mb-4 font-serif">Descargar Instalador</h2>
 
-              <div className="space-y-4">
+              {/* Online/Offline Badge */}
+              {project.appType === 'online-offline' && (
+                <div className="mb-4 p-3 rounded-xl bg-gradient-to-r from-blue-500/20 to-green-500/20 border border-blue-500/30">
+                  <div className="flex items-center gap-2 text-sm">
+                    <Wifi size={16} className="text-blue-400" />
+                    <span className="text-blue-300 font-medium">App Online/Offline</span>
+                  </div>
+                  <p className="text-gray-400 text-xs mt-1">
+                    Funciona con internet. Descarga la data para uso sin conexión.
+                  </p>
+                </div>
+              )}
+
+              <div className="space-y-3">
                 {project.downloads.map((download) => (
                   <div
                     key={download.platform}
@@ -316,9 +329,35 @@ const ProjectDetailPage = () => {
                 ))}
               </div>
 
+              {/* Data Download Section */}
+              {project.dataDownload && (
+                <div className="mt-6 pt-6 border-t border-white/10">
+                  <h3 className="text-lg font-bold text-white mb-3 font-serif flex items-center gap-2">
+                    <Database size={18} className="text-adventist-accent" />
+                    Datos para Modo Offline
+                  </h3>
+                  <p className="text-gray-400 text-sm mb-4">
+                    {project.dataDownload.description}
+                  </p>
+                  <a
+                    href={project.dataDownload.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-purple-600/80 to-blue-600/80 hover:from-purple-500 hover:to-blue-500 text-white font-semibold transition-all group w-full justify-center"
+                  >
+                    <WifiOff size={18} />
+                    <span>Descargar Data Offline</span>
+                    <span className="text-xs opacity-75">({project.dataDownload.fileSize})</span>
+                  </a>
+                  <p className="text-gray-500 text-xs mt-2 text-center">
+                    v{project.dataDownload.version} • Instalación automática
+                  </p>
+                </div>
+              )}
+
               <div className="mt-6 pt-6 border-t border-white/10">
                 <p className="text-gray-400 text-sm">
-                  💡 Las descargas se realizan a través de MEGA. Asegúrate de tener una conexión estable.
+                  💡 <strong>Tip:</strong> Instala la app y úsala con internet. Si quieres usarla sin conexión, descarga los datos adicionales.
                 </p>
               </div>
             </div>

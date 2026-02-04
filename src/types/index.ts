@@ -10,7 +10,9 @@ export interface AppProject {
   screenshots: string[];
   features: string[];
   downloads: DownloadLink[];
+  dataDownload?: DataDownload; // Descarga opcional de data para modo offline
   status: 'available' | 'coming-soon';
+  appType?: 'online-offline' | 'offline-only'; // Tipo de app
 }
 
 export interface DownloadLink {
@@ -19,4 +21,11 @@ export interface DownloadLink {
   fileName: string;
   fileSize: string;
   status: 'available' | 'coming-soon';
+}
+
+export interface DataDownload {
+  url: string;
+  fileSize: string;
+  version: string;
+  description: string;
 }
