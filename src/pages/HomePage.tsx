@@ -48,7 +48,7 @@ const HomePage = () => {
               <div className="flex flex-wrap gap-4 mb-8">
                 <div className="glass-card rounded-lg px-4 py-2">
                   <span className="text-gray-400 text-xs">Versión</span>
-                  <p className="text-white font-semibold">2.0</p>
+                  <p className="text-white font-semibold">2.0.2</p>
                 </div>
                 <div className="glass-card rounded-lg px-4 py-2">
                   <span className="text-gray-400 text-xs">Instalador</span>

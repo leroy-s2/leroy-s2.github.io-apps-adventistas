@@ -21,7 +21,7 @@ La aplicación incluye tres modos de reproducción para cada himno:
 
 Ideal para cultos, estudios bíblicos, momentos devocionales personales, o simplemente para disfrutar de los hermosos himnos de nuestra iglesia.`,
     icon: 'logo-himnario.ico',
-    version: '8.5',
+    version: '2.0.2',
     lastUpdate: '2026-02-04',
     category: 'Música & Adoración',
     appType: 'online-offline',
@@ -41,14 +41,14 @@ Ideal para cultos, estudios bíblicos, momentos devocionales personales, o simpl
     downloads: [
       {
         platform: 'windows',
-        url: 'https://upeuedupe-my.sharepoint.com/:u:/g/personal/angel_silva_s_upeu_edu_pe/IQCK22OoDFR9RqFIGYzI2qkEATTJidrWm1YbUZWGd2ce1jc?e=l84hLs&download=1',
+        url: 'https://upeuedupe-my.sharepoint.com/:u:/g/personal/angel_silva_s_upeu_edu_pe/IQArcqSWHm-KRa13q0WFluYyAUmfGhYAdSd-NlrY0-w1Mgg?e=AH7oOx&download=1',
         fileName: 'HimnarioAdventista-Setup.exe',
-        fileSize: '107 MB',
+        fileSize: '112,9 MB',
         status: 'available',
       },
       {
         platform: 'linux',
-        url: 'https://upeuedupe-my.sharepoint.com/:u:/g/personal/angel_silva_s_upeu_edu_pe/IQDmxOe9mYUtQYWrrAfWl7_-AftSrXZYtkY2jof8TBtREeg?e=XnIxB5&download=1',
+        url: 'https://upeuedupe-my.sharepoint.com/:u:/g/personal/angel_silva_s_upeu_edu_pe/IQCUvlyX-_ZFT7XNFdJbtkSBAS1jhaoM_jc9l2dXVxAgzcg?e=qVjBst&download=1',
         fileName: 'HimnarioAdventista.AppImage',
         fileSize: '57,1 MB',
         status: 'available',
@@ -64,8 +64,8 @@ Ideal para cultos, estudios bíblicos, momentos devocionales personales, o simpl
     dataDownload: {
       url: 'https://upeuedupe-my.sharepoint.com/:u:/g/personal/angel_silva_s_upeu_edu_pe/IQBPgALocteMR6u703GOVpzoATfEOvlH9slXFtVr-BctjDw?e=Ixw8bf&download=1',
       fileSize: '3.23 GB',
-      version: '8.5',
-      description: 'Datos de audio para uso sin conexión. La aplicación instalará automáticamente estos archivos.',
+      version: '2.0.2',
+      description: 'Datos de audio para uso sin conexión',
     },
     status: 'available',
   },
