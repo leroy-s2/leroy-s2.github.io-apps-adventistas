@@ -41,7 +41,7 @@ Ideal para cultos, estudios bíblicos, momentos devocionales personales, o simpl
     downloads: [
       {
         platform: 'windows',
-        url: 'https://upeuedupe-my.sharepoint.com/:u:/g/personal/angel_silva_s_upeu_edu_pe/IQAQB4xmLKcySKT1OSNhLaCRAaXthBF_-_SuzK9QVl5NUmU?e=07zXrM&download=1',
+        url: 'https://upeuedupe-my.sharepoint.com/:u:/g/personal/angel_silva_s_upeu_edu_pe/IQAFteSvDgE7QpZiXX-EgAKqAbyNaU8DDXw7DuanLGHK4mw?e=pSl5p5&download=1',
         fileName: 'HimnarioAdventista-Setup.exe',
         fileSize: '136,8 MB',
         status: 'available',
