@@ -14,8 +14,11 @@ interface ProjectCardProps {
 }
 
 const ProjectCard = ({ project }: ProjectCardProps) => {
-  const availablePlatforms = project.downloads.filter(d => d.status === 'available').length;
-  const totalPlatforms = project.downloads.length;
+  const uniquePlatforms = Array.from(new Set(project.downloads.map(download => download.platform)));
+  const availablePlatforms = uniquePlatforms.filter(platform =>
+    project.downloads.some(download => download.platform === platform && download.status === 'available')
+  ).length;
+  const totalPlatforms = uniquePlatforms.length;
 
   return (
     <div className="glass-card rounded-2xl p-6 hover:bg-white/10 transition-all duration-300 animate-fade-in group">
@@ -49,23 +52,29 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
           <span>{availablePlatforms}/{totalPlatforms} plataformas</span>
         </div>
         <div className="flex items-center space-x-2">
-          {project.downloads.map((download) => (
+          {uniquePlatforms.map((platform) => {
+            const hasAvailableDownload = project.downloads.some(
+              (download) => download.platform === platform && download.status === 'available'
+            );
+
+            return (
             <div
-              key={download.platform}
+              key={platform}
               className={`p-2 rounded-lg ${
-                download.status === 'available' 
+                hasAvailableDownload
                   ? 'bg-adventist-accent/20 text-adventist-accent' 
                   : 'bg-gray-600/20 text-gray-500'
               }`}
-              title={`${download.platform.charAt(0).toUpperCase() + download.platform.slice(1)} - ${
-                download.status === 'available' ? 'Disponible' : 'Próximamente'
+              title={`${platform.charAt(0).toUpperCase() + platform.slice(1)} - ${
+                hasAvailableDownload ? 'Disponible' : 'Próximamente'
               }`}
             >
-              {download.platform === 'windows' && <Monitor size={16} />}
-              {download.platform === 'linux' && <LinuxIcon />}
-              {download.platform === 'mac' && <Apple size={16} />}
+              {platform === 'windows' && <Monitor size={16} />}
+              {platform === 'linux' && <LinuxIcon />}
+              {platform === 'mac' && <Apple size={16} />}
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 

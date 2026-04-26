@@ -41,16 +41,23 @@ Ideal para cultos, estudios bíblicos, momentos devocionales personales, o simpl
     downloads: [
       {
         platform: 'windows',
-        url: 'https://upeuedupe-my.sharepoint.com/:u:/g/personal/angel_silva_s_upeu_edu_pe/IQALtew-BvWfR5LKlk1q_8xGAeYCEh3I6vIvVs73qYQ4vCs?e=AUihS2&download=1',
+        url: 'https://upeuedupe-my.sharepoint.com/:u:/g/personal/angel_silva_s_upeu_edu_pe/IQAQB4xmLKcySKT1OSNhLaCRAaXthBF_-_SuzK9QVl5NUmU?e=07zXrM&download=1',
         fileName: 'HimnarioAdventista-Setup.exe',
-        fileSize: '109 MB',
+        fileSize: '136,8 MB',
         status: 'available',
       },
       {
         platform: 'linux',
-        url: 'https://upeuedupe-my.sharepoint.com/:u:/g/personal/angel_silva_s_upeu_edu_pe/IQD38x_mV34qRrIUbRpV7Y9nAbgaAtYbkqFwq2S25AgL4Fs?e=CziVX5&download=1',
-        fileName: 'HimnarioAdventista.AppImage',
+        url: 'https://upeuedupe-my.sharepoint.com/:u:/g/personal/angel_silva_s_upeu_edu_pe/IQBJx3EjQ8wjSIOiNdQkc7bAAUZx82V1MuOzcIKwxbYZgZ8?e=IVJncD&download=1',
+        fileName: 'HimnarioAdventista.deb',
         fileSize: '57,1 MB',
+        status: 'available',
+      },
+      {
+        platform: 'linux',
+        url: 'https://upeuedupe-my.sharepoint.com/:u:/g/personal/angel_silva_s_upeu_edu_pe/IQCDPVkuo2q-QIQiuPCK2eihAYndkXFqSedpq5P3CKzvPfE?e=3opUpo&download=1',
+        fileName: 'HimnarioAdventista.flatpak',
+        fileSize: '53,0 MB',
         status: 'available',
       },
       {

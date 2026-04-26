@@ -24,6 +24,7 @@ const ProjectDetailPage = () => {
   const location = useLocation();
   const project = getProjectById(id || '');
   const [highlightedPlatform, setHighlightedPlatform] = useState<string | null>(null);
+  const [showLinuxOptions, setShowLinuxOptions] = useState(false);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -64,6 +65,20 @@ const ProjectDetailPage = () => {
       </div>
     );
   }
+
+  const linuxDownloads = project.downloads
+    .filter(download => download.platform === 'linux')
+    .sort((a, b) => {
+      const order = (fileName: string) => {
+        if (fileName.toLowerCase().includes('.deb')) return 0;
+        if (fileName.toLowerCase().includes('flatpak')) return 1;
+        return 2;
+      };
+
+      return order(a.fileName) - order(b.fileName);
+    });
+  const windowsDownloads = project.downloads.filter(download => download.platform === 'windows');
+  const macDownloads = project.downloads.filter(download => download.platform === 'mac');
 
   const getPlatformIcon = (platform: string) => {
     switch (platform) {
@@ -278,9 +293,83 @@ const ProjectDetailPage = () => {
               )}
 
               <div className="space-y-3">
-                {project.downloads.map((download) => (
+                {windowsDownloads.map((download) => (
                   <div
-                    key={download.platform}
+                    key={`${download.platform}-${download.fileName}`}
+                    className={`transition-all duration-500 rounded-xl ${highlightedPlatform === download.platform
+                      ? 'ring-4 ring-adventist-accent ring-offset-2 ring-offset-adventist-dark animate-pulse'
+                      : ''
+                      }`}
+                  >
+                    {download.status === 'available' && download.url ? (
+                      <a
+                        href={download.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-between p-4 rounded-xl bg-adventist-accent text-adventist-dark font-semibold download-btn w-full group"
+                      >
+                        <div className="flex items-center gap-3">
+                          {getPlatformIcon(download.platform)}
+                          <div className="text-left">
+                            <div>{getPlatformName(download.platform)}</div>
+                            <div className="text-xs opacity-75">{download.fileSize}</div>
+                          </div>
+                        </div>
+                        <ExternalLink size={18} className="group-hover:translate-x-1 transition-transform" />
+                      </a>
+                    ) : download.status === 'available' && !download.url ? (
+                      <div className="flex items-center justify-between p-4 rounded-xl bg-blue-500/20 text-blue-400 w-full">
+                        <div className="flex items-center gap-3">
+                          {getPlatformIcon(download.platform)}
+                          <div className="text-left">
+                            <div>{getPlatformName(download.platform)}</div>
+                            <div className="text-xs opacity-75">Link pendiente</div>
+                          </div>
+                        </div>
+                        <Clock size={18} />
+                      </div>
+                    ) : (
+                      <div className="flex items-center justify-between p-4 rounded-xl bg-gray-600/20 text-gray-400 w-full">
+                        <div className="flex items-center gap-3">
+                          {getPlatformIcon(download.platform)}
+                          <div className="text-left">
+                            <div>{getPlatformName(download.platform)}</div>
+                            <div className="text-xs opacity-75">Próximamente</div>
+                          </div>
+                        </div>
+                        <Clock size={18} />
+                      </div>
+                    )}
+                  </div>
+                ))}
+
+                {linuxDownloads.length > 0 && (
+                  <div
+                    className={`transition-all duration-500 rounded-xl ${highlightedPlatform === 'linux'
+                      ? 'ring-4 ring-adventist-accent ring-offset-2 ring-offset-adventist-dark animate-pulse'
+                      : ''
+                      }`}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setShowLinuxOptions(true)}
+                      className="flex items-center justify-between p-4 rounded-xl bg-adventist-accent text-adventist-dark font-semibold download-btn w-full group"
+                    >
+                      <div className="flex items-center gap-3">
+                        {getPlatformIcon('linux')}
+                        <div className="text-left">
+                          <div>Linux</div>
+                          <div className="text-xs opacity-75">Seleccionar formato</div>
+                        </div>
+                      </div>
+                      <ExternalLink size={18} className="group-hover:translate-x-1 transition-transform" />
+                    </button>
+                  </div>
+                )}
+
+                {macDownloads.map((download) => (
+                  <div
+                    key={`${download.platform}-${download.fileName}`}
                     className={`transition-all duration-500 rounded-xl ${highlightedPlatform === download.platform
                       ? 'ring-4 ring-adventist-accent ring-offset-2 ring-offset-adventist-dark animate-pulse'
                       : ''
@@ -369,6 +458,76 @@ const ProjectDetailPage = () => {
           <Comments identifier={project.id} title={project.name} />
         </div>
       </div>
+
+      {showLinuxOptions && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+          <button
+            type="button"
+            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+            onClick={() => setShowLinuxOptions(false)}
+            aria-label="Cerrar selector de Linux"
+          />
+          <div className="relative w-full max-w-lg glass-card rounded-2xl p-6 border border-white/20 animate-fade-in">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-xl font-bold text-white font-serif">Selecciona tu formato Linux</h3>
+              <button
+                type="button"
+                onClick={() => setShowLinuxOptions(false)}
+                className="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors"
+                aria-label="Cerrar"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <div className="space-y-3">
+              {linuxDownloads.map((download) => {
+                const isDebPackage = download.fileName.toLowerCase().includes('.deb');
+                const title = isDebPackage ? 'Linux (.deb):' : 'Linux (Flatpak):';
+                const description = isDebPackage
+                  ? 'Ideal para Ubuntu, Debian, Linux Mint y derivados.'
+                  : 'Versión universal. Funciona en Fedora, Arch y casi cualquier distribución.';
+
+                return download.status === 'available' && download.url ? (
+                  <a
+                    key={`${download.platform}-${download.fileName}`}
+                    href={download.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-start justify-between gap-3 p-4 rounded-xl bg-adventist-accent text-adventist-dark font-semibold download-btn w-full group"
+                    onClick={() => setShowLinuxOptions(false)}
+                  >
+                    <div className="flex items-start gap-3">
+                      <LinuxIcon className="w-5 h-5 mt-1" />
+                      <div className="text-left">
+                        <div>{title}</div>
+                        <div className="text-xs opacity-80">{description}</div>
+                        <div className="text-xs opacity-70 mt-1">{download.fileSize}</div>
+                      </div>
+                    </div>
+                    <ExternalLink size={18} className="group-hover:translate-x-1 transition-transform mt-1" />
+                  </a>
+                ) : (
+                  <div
+                    key={`${download.platform}-${download.fileName}`}
+                    className="flex items-start justify-between gap-3 p-4 rounded-xl bg-gray-600/20 text-gray-300 w-full"
+                  >
+                    <div className="flex items-start gap-3">
+                      <LinuxIcon className="w-5 h-5 mt-1" />
+                      <div className="text-left">
+                        <div>{title}</div>
+                        <div className="text-xs opacity-80">{description}</div>
+                        <div className="text-xs opacity-70 mt-1">Próximamente</div>
+                      </div>
+                    </div>
+                    <Clock size={18} className="mt-1" />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
