@@ -1,8 +1,10 @@
 import { useParams, Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Download, ArrowLeft, Check, Monitor, Apple, Clock, FileText, ExternalLink, X, Minus, Wifi, WifiOff, Music, Database } from 'lucide-react';
+import { Download, ArrowLeft, Check, Monitor, Apple, Clock, FileText, ExternalLink, X, Minus, Wifi, WifiOff, Music, Database, Image as ImageIcon } from 'lucide-react';
 import { getProjectById } from '../data/projects';
 import Comments from '../components/Comments';
+import { DownloadCountBadge, useDownloadStats } from '../components/DownloadCounter';
+
 
 // Componente de flecha curva para anotaciones
 const CurvedArrow = ({ className }: { className?: string }) => (
@@ -25,6 +27,9 @@ const ProjectDetailPage = () => {
   const project = getProjectById(id || '');
   const [highlightedPlatform, setHighlightedPlatform] = useState<string | null>(null);
   const [showLinuxOptions, setShowLinuxOptions] = useState(false);
+
+  // Estadísticas reales de descarga via /api/stats (Neon Postgres)
+  const { stats, loading: statsLoading } = useDownloadStats();
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -79,6 +84,9 @@ const ProjectDetailPage = () => {
     });
   const windowsDownloads = project.downloads.filter(download => download.platform === 'windows');
   const macDownloads = project.downloads.filter(download => download.platform === 'mac');
+
+  const detallesScreenshot = project.screenshots.find(s => s.includes('screenshot-detalles')) || project.screenshots[0];
+  const reproduccionScreenshot = project.screenshots.find(s => s.includes('screenshot-reproduccion')) || project.screenshots[1];
 
   const getPlatformIcon = (platform: string) => {
     switch (platform) {
@@ -146,7 +154,7 @@ const ProjectDetailPage = () => {
                 </div>
                 <div className="flex items-center gap-2">
                   <Clock size={16} />
-                  <span>Actualizado: {new Date(project.lastUpdate).toLocaleDateString('es-ES')}</span>
+                  <span>Actualizado: {(() => { const [y, m, d] = project.lastUpdate.split('-').map(Number); return new Date(y, m - 1, d).toLocaleDateString('es-ES'); })()}</span>
                 </div>
               </div>
             </div>
@@ -162,7 +170,7 @@ const ProjectDetailPage = () => {
               <div className="glass-card rounded-2xl p-4">
                 <div className="relative">
                   <img
-                    src={`${import.meta.env.BASE_URL}${project.screenshots[0]}`}
+                    src={`${import.meta.env.BASE_URL}${detallesScreenshot}`}
                     alt="Pantalla inicial"
                     className="rounded-xl w-full"
                   />
@@ -186,16 +194,26 @@ const ProjectDetailPage = () => {
                       <CurvedArrow className="w-8 h-8 text-yellow-400 -rotate-45 scale-y-[-1]" />
                     </div>
                   </div>
+                  {/* Anotación: Personalizar - Parte inferior izquierda */}
+                  <div className="absolute bottom-1/4 left-0 -translate-x-4">
+                    <div className="flex items-center gap-1">
+                      <div className="bg-blue-500 rounded px-2 py-1 text-white text-xs font-semibold flex items-center gap-1 shadow-lg">
+                        <ImageIcon size={12} />
+                        <span>Personaliza</span>
+                      </div>
+                      <CurvedArrow className="w-8 h-8 text-blue-400 rotate-90" />
+                    </div>
+                  </div>
                 </div>
                 <p className="text-gray-400 text-sm mt-3 text-center">Pantalla de inicio con listado de himnos</p>
               </div>
 
               {/* Screenshot 2 - Vista de reproducción */}
-              {project.screenshots[1] && (
+              {reproduccionScreenshot && (
                 <div className="glass-card rounded-2xl p-4">
                   <div className="relative">
                     <img
-                      src={`${import.meta.env.BASE_URL}${project.screenshots[1]}`}
+                      src={`${import.meta.env.BASE_URL}${reproduccionScreenshot}`}
                       alt="Vista de reproducción"
                       className="rounded-xl w-full"
                     />
@@ -302,21 +320,24 @@ const ProjectDetailPage = () => {
                       }`}
                   >
                     {download.status === 'available' && download.url ? (
-                      <a
-                        href={download.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-between p-4 rounded-xl bg-adventist-accent text-adventist-dark font-semibold download-btn w-full group"
-                      >
-                        <div className="flex items-center gap-3">
-                          {getPlatformIcon(download.platform)}
-                          <div className="text-left">
-                            <div>{getPlatformName(download.platform)}</div>
-                            <div className="text-xs opacity-75">{download.fileSize}</div>
+                      <>
+                        <a
+                          href={`/api/download?platform=${download.platform}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-between p-4 rounded-xl bg-adventist-accent text-adventist-dark font-semibold download-btn w-full group"
+                        >
+                          <div className="flex items-center gap-3">
+                            {getPlatformIcon(download.platform)}
+                            <div className="text-left">
+                              <div>{getPlatformName(download.platform)}</div>
+                              <div className="text-xs opacity-75">{download.fileSize}</div>
+                            </div>
                           </div>
-                        </div>
-                        <ExternalLink size={18} className="group-hover:translate-x-1 transition-transform" />
-                      </a>
+                          <ExternalLink size={18} className="group-hover:translate-x-1 transition-transform" />
+                        </a>
+                        <DownloadCountBadge platform="windows" stats={stats} loading={statsLoading} />
+                      </>
                     ) : download.status === 'available' && !download.url ? (
                       <div className="flex items-center justify-between p-4 rounded-xl bg-blue-500/20 text-blue-400 w-full">
                         <div className="flex items-center gap-3">
@@ -364,6 +385,7 @@ const ProjectDetailPage = () => {
                       </div>
                       <ExternalLink size={18} className="group-hover:translate-x-1 transition-transform" />
                     </button>
+                    <DownloadCountBadge platform="linux" stats={stats} loading={statsLoading} />
                   </div>
                 )}
 
@@ -491,7 +513,7 @@ const ProjectDetailPage = () => {
                 return download.status === 'available' && download.url ? (
                   <a
                     key={`${download.platform}-${download.fileName}`}
-                    href={download.url}
+                    href={`/api/download?platform=${isDebPackage ? 'linux-deb' : 'linux-flatpak'}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-start justify-between gap-3 p-4 rounded-xl bg-adventist-accent text-adventist-dark font-semibold download-btn w-full group"

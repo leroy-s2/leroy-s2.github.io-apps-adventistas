@@ -1,83 +1,38 @@
-import type { AppProject } from '../types';
+import type { AppManifest, AppInfo, AppProject } from '../types';
+import himnarioManifest from '../apps/himnario-adventista/manifest.json';
+import { himnarioInfo } from '../apps/himnario-adventista/info';
 
-export const projects: AppProject[] = [
-  {
-    id: 'himnario-adventista',
-    name: 'Himnario Adventista',
-    description: 'El himnario oficial de la Iglesia Adventista del Séptimo Día en formato digital. Incluye letra, pista y versión cantada de cada himno. Funciona online y offline.',
-    longDescription: `El Himnario Adventista es una aplicación de escritorio completa que te permite acceder a todos los himnos del Himnario Adventista del Séptimo Día.
+/**
+ * Loader del catálogo de apps.
+ *
+ * Combina cada par (manifest volátil + info estático) en un único
+ * AppProject que consumen los componentes. La VERSIÓN es single-source:
+ * vive en el manifest, y si dataDownload omite su propia version, se
+ * hereda la del manifest. Así en cada release solo se toca el manifest.
+ */
+function buildProject(manifest: AppManifest, info: AppInfo): AppProject {
+  return {
+    ...info,
+    version: manifest.version,
+    lastUpdate: manifest.lastUpdate,
+    downloads: manifest.downloads,
+    dataDownload: manifest.dataDownload
+      ? {
+          url: manifest.dataDownload.url,
+          fileSize: manifest.dataDownload.fileSize,
+          version: manifest.dataDownload.version ?? manifest.version,
+          description: manifest.dataDownload.description,
+        }
+      : undefined,
+  };
+}
 
-Esta aplicación ha sido desarrollada pensando en las necesidades de iglesias, directores de música, pianistas, y todos los hermanos que desean tener acceso a los himnos de nuestra fe.
+const himnarioAdventista = buildProject(
+  himnarioManifest as AppManifest,
+  himnarioInfo,
+);
 
-🌐 MODO ONLINE/OFFLINE
-La aplicación detecta automáticamente si tienes los datos descargados localmente. Si no los tienes, reproduce los himnos directamente desde internet. Esto te permite:
-• Usar la app inmediatamente después de instalar (modo online)
-• Descargar los datos para uso sin conexión (modo offline)
+export const projects: AppProject[] = [himnarioAdventista];
 
-La aplicación incluye tres modos de reproducción para cada himno:
-• Letra: Visualiza la letra completa del himno
-• Cantado: Escucha la versión cantada del himno
-• Pista: Reproduce solo la pista instrumental para acompañamiento
-
-Ideal para cultos, estudios bíblicos, momentos devocionales personales, o simplemente para disfrutar de los hermosos himnos de nuestra iglesia.`,
-    icon: 'logo-himnario.ico',
-    version: '2.0.2',
-    lastUpdate: '2026-02-04',
-    category: 'Música & Adoración',
-    appType: 'online-offline',
-    screenshots: [
-      'screenshot-inicio.png',
-      'screenshot-reproduccion.png',
-    ],
-    features: [
-      'Todos los himnos del Himnario Adventista oficial',
-      'Tres modos: Letra, Cantado y Pista instrumental',
-      'Funciona online (streaming) y offline (datos locales)',
-      'Instalador ligero - descarga la data solo si la necesitas',
-      'Búsqueda por número, título o fragmento de letra',
-      'Interfaz intuitiva y fácil de usar',
-      'Compatible con Windows y Linux',
-    ],
-    downloads: [
-      {
-        platform: 'windows',
-        url: 'https://upeuedupe-my.sharepoint.com/:u:/g/personal/angel_silva_s_upeu_edu_pe/IQBpBNHwA-ypSbFF397u1rjfATgxttHZAqWpJy3_D2gl0Kc?e=P07BkX&download=1',
-        fileName: 'HimnarioAdventista-Setup.exe',
-        fileSize: '79,4 MB',
-        status: 'available',
-      },
-      {
-        platform: 'linux',
-        url: 'https://upeuedupe-my.sharepoint.com/:u:/g/personal/angel_silva_s_upeu_edu_pe/IQBJx3EjQ8wjSIOiNdQkc7bAAUZx82V1MuOzcIKwxbYZgZ8?e=IVJncD&download=1',
-        fileName: 'HimnarioAdventista.deb',
-        fileSize: '57,1 MB',
-        status: 'available',
-      },
-      {
-        platform: 'linux',
-        url: 'https://upeuedupe-my.sharepoint.com/:u:/g/personal/angel_silva_s_upeu_edu_pe/IQCDPVkuo2q-QIQiuPCK2eihAYndkXFqSedpq5P3CKzvPfE?e=3opUpo&download=1',
-        fileName: 'HimnarioAdventista.flatpak',
-        fileSize: '53,0 MB',
-        status: 'available',
-      },
-      {
-        platform: 'mac',
-        url: '',
-        fileName: 'HimnarioAdventista.dmg',
-        fileSize: 'Por definir',
-        status: 'coming-soon',
-      },
-    ],
-    dataDownload: {
-      url: 'https://upeuedupe-my.sharepoint.com/:u:/g/personal/angel_silva_s_upeu_edu_pe/IQBPgALocteMR6u703GOVpzoATfEOvlH9slXFtVr-BctjDw?e=Ixw8bf&download=1',
-      fileSize: '3.23 GB',
-      version: '2.0.2',
-      description: 'Datos de audio para uso sin conexión',
-    },
-    status: 'available',
-  },
-];
-
-export const getProjectById = (id: string): AppProject | undefined => {
-  return projects.find(project => project.id === id);
-};
+export const getProjectById = (id: string): AppProject | undefined =>
+  projects.find(project => project.id === id);

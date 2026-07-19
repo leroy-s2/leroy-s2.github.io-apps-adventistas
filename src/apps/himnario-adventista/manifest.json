@@ -1,0 +1,40 @@
+{
+  "id": "himnario-adventista",
+  "version": "2.1.2",
+  "lastUpdate": "2026-06-19",
+  "downloads": [
+    {
+      "platform": "windows",
+      "url": "https://pub-4d9b18c9d97e44eb816ad7c74020d7c6.r2.dev/HimnarioAdventista-Windows.zip",
+      "fileName": "HimnarioAdventista-Setup.exe",
+      "fileSize": "110.83 MB",
+      "status": "available"
+    },
+    {
+      "platform": "linux",
+      "url": "https://pub-4d9b18c9d97e44eb816ad7c74020d7c6.r2.dev/HimnarioAdventista-Linux-deb.zip",
+      "fileName": "HimnarioAdventista.deb",
+      "fileSize": "95.12 MB",
+      "status": "available"
+    },
+    {
+      "platform": "linux",
+      "url": "https://pub-4d9b18c9d97e44eb816ad7c74020d7c6.r2.dev/HimnarioAdventista-Linux-Flatpak.zip",
+      "fileName": "HimnarioAdventista.flatpak",
+      "fileSize": "84.15 MB",
+      "status": "available"
+    },
+    {
+      "platform": "mac",
+      "url": "",
+      "fileName": "HimnarioAdventista.dmg",
+      "fileSize": "Por definir",
+      "status": "coming-soon"
+    }
+  ],
+  "dataDownload": {
+    "url": "https://pub-4d9b18c9d97e44eb816ad7c74020d7c6.r2.dev/audio.zip",
+    "fileSize": "3.47 GB",
+    "description": "Datos de audio para uso sin conexión"
+  }
+}

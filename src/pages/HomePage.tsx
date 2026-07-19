@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import { Monitor, Apple, Heart, Lightbulb, Wifi } from 'lucide-react';
 import Comments from '../components/Comments';
+import { getProjectById } from '../data/projects';
+import { InstallsStatCard, useDownloadStats } from '../components/DownloadCounter';
 
 // Icono de Linux
 const LinuxIcon = ({ className }: { className?: string }) => (
@@ -10,6 +12,12 @@ const LinuxIcon = ({ className }: { className?: string }) => (
 );
 
 const HomePage = () => {
+  const project = getProjectById('himnario-adventista');
+  const { stats, loading: statsLoading } = useDownloadStats();
+
+  if (!project) {
+    return null;
+  }
   return (
     <div className="min-h-screen pt-16">
       {/* Hero Section - Himnario Adventista */}
@@ -21,8 +29,8 @@ const HomePage = () => {
 
               <div className="flex items-center gap-4 mb-6">
                 <img
-                  src={`${import.meta.env.BASE_URL}logo-himnario.ico`}
-                  alt="Himnario Adventista"
+                  src={`${import.meta.env.BASE_URL}${project.icon}`}
+                  alt={project.name}
                   className="w-20 h-20 rounded-2xl shadow-lg"
                 />
                 <div>
@@ -48,7 +56,7 @@ const HomePage = () => {
               <div className="flex flex-wrap gap-4 mb-8">
                 <div className="glass-card rounded-lg px-4 py-2">
                   <span className="text-gray-400 text-xs">Versión</span>
-                  <p className="text-white font-semibold">2.0.2</p>
+                  <p className="text-white font-semibold">{project.version}</p>
                 </div>
                 <div className="glass-card rounded-lg px-4 py-2">
                   <span className="text-gray-400 text-xs">Instalador</span>
@@ -62,6 +70,8 @@ const HomePage = () => {
                   <span className="text-gray-400 text-xs">Precio</span>
                   <p className="text-green-400 font-semibold">Gratis</p>
                 </div>
+                {/* Contador de instalaciones — conectado a /api/downloads */}
+                <InstallsStatCard stats={stats} loading={statsLoading} />
               </div>
 
               {/* Download Buttons */}
@@ -96,7 +106,7 @@ const HomePage = () => {
               <div className="relative">
                 <div className="absolute inset-0 bg-adventist-accent/20 rounded-3xl blur-3xl"></div>
                 <img
-                  src={`${import.meta.env.BASE_URL}screenshot-inicio.png`}
+                  src={`${import.meta.env.BASE_URL}${project.screenshots.find(s => s.includes('screenshot-inicio')) || project.screenshots[0]}`}
                   alt="Pantalla inicial del Himnario Adventista"
                   className="relative rounded-2xl shadow-2xl border border-white/10 w-full"
                 />
