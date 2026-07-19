@@ -26,7 +26,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     await sql`
       UPDATE file_downloads 
       SET download_count = download_count + 1, last_downloaded_at = CURRENT_TIMESTAMP
-      WHERE platform = ${platform}
+      WHERE platform = ${platform as string}
     `;
 
     // Redirige (302) al archivo final
