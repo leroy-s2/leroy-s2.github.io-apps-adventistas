@@ -7,21 +7,21 @@
       "platform": "windows",
       "url": "https://pub-4d9b18c9d97e44eb816ad7c74020d7c6.r2.dev/HimnarioAdventista-Windows.zip",
       "fileName": "HimnarioAdventista-Setup.exe",
-      "fileSize": "110.83 MB",
+      "fileSize": "117.49 MB",
       "status": "available"
     },
     {
       "platform": "linux",
       "url": "https://pub-4d9b18c9d97e44eb816ad7c74020d7c6.r2.dev/HimnarioAdventista-Linux-deb.zip",
       "fileName": "HimnarioAdventista.deb",
-      "fileSize": "95.12 MB",
+      "fileSize": "101.78 MB",
       "status": "available"
     },
     {
       "platform": "linux",
       "url": "https://pub-4d9b18c9d97e44eb816ad7c74020d7c6.r2.dev/HimnarioAdventista-Linux-Flatpak.zip",
       "fileName": "HimnarioAdventista.flatpak",
-      "fileSize": "84.15 MB",
+      "fileSize": "90.81 MB",
       "status": "available"
     },
     {
