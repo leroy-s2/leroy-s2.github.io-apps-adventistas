@@ -92,11 +92,13 @@ const HomePage = () => {
                     <LinuxIcon className="w-5 h-5" />
                     <span>Linux</span>
                   </Link>
-                  <div className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gray-600/30 text-gray-400 cursor-not-allowed">
+                  <Link
+                    to="/project/himnario-adventista?platform=mac"
+                    className="flex items-center gap-2 px-6 py-3 rounded-xl bg-adventist-accent text-adventist-dark font-semibold download-btn"
+                  >
                     <Apple size={20} />
                     <span>macOS</span>
-                    <span className="text-xs">(Próximamente)</span>
-                  </div>
+                  </Link>
                 </div>
               </div>
             </div>

@@ -4,11 +4,11 @@ import { sql } from '@vercel/postgres';
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { platform } = req.query;
 
-  // Mapeamos la plataforma con los archivos reales subidos
   const files: Record<string, string> = {
     'windows': 'HimnarioAdventista-Windows.zip',
     'linux-deb': 'HimnarioAdventista-Linux-deb.zip',
-    'linux-flatpak': 'HimnarioAdventista-Linux-Flatpak.zip'
+    'linux-flatpak': 'HimnarioAdventista-Linux-Flatpak.zip',
+    'macos': 'HimnarioAdventista-macos.zip'
   };
 
   const filename = typeof platform === 'string' ? files[platform] : null;

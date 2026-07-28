@@ -398,44 +398,25 @@ const ProjectDetailPage = () => {
                       }`}
                   >
                     {download.status === 'available' && download.url ? (
-                      <a
-                        href={download.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-between p-4 rounded-xl bg-adventist-accent text-adventist-dark font-semibold download-btn w-full group"
-                      >
-                        <div className="flex items-center gap-3">
-                          {getPlatformIcon(download.platform)}
-                          <div className="text-left">
-                            <div>{getPlatformName(download.platform)}</div>
-                            <div className="text-xs opacity-75">{download.fileSize}</div>
+                      <>
+                        <a
+                          href={`/api/download?platform=macos`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-between p-4 rounded-xl bg-adventist-accent text-adventist-dark font-semibold download-btn w-full group"
+                        >
+                          <div className="flex items-center gap-3">
+                            {getPlatformIcon(download.platform)}
+                            <div className="text-left">
+                              <div>{getPlatformName(download.platform)}</div>
+                              <div className="text-xs opacity-75">{download.fileSize}</div>
+                            </div>
                           </div>
-                        </div>
-                        <ExternalLink size={18} className="group-hover:translate-x-1 transition-transform" />
-                      </a>
-                    ) : download.status === 'available' && !download.url ? (
-                      <div className="flex items-center justify-between p-4 rounded-xl bg-blue-500/20 text-blue-400 w-full">
-                        <div className="flex items-center gap-3">
-                          {getPlatformIcon(download.platform)}
-                          <div className="text-left">
-                            <div>{getPlatformName(download.platform)}</div>
-                            <div className="text-xs opacity-75">Link pendiente</div>
-                          </div>
-                        </div>
-                        <Clock size={18} />
-                      </div>
-                    ) : (
-                      <div className="flex items-center justify-between p-4 rounded-xl bg-gray-600/20 text-gray-400 w-full">
-                        <div className="flex items-center gap-3">
-                          {getPlatformIcon(download.platform)}
-                          <div className="text-left">
-                            <div>{getPlatformName(download.platform)}</div>
-                            <div className="text-xs opacity-75">Próximamente</div>
-                          </div>
-                        </div>
-                        <Clock size={18} />
-                      </div>
-                    )}
+                          <ExternalLink size={18} className="group-hover:translate-x-1 transition-transform" />
+                        </a>
+                        <DownloadCountBadge platform="mac" stats={stats} loading={statsLoading} />
+                      </>
+                    ) : null}
                   </div>
                 ))}
               </div>

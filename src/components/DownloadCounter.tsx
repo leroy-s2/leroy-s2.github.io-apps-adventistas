@@ -8,6 +8,7 @@ export interface DownloadStats {
   windows:         number;
   'linux-deb':     number;
   'linux-flatpak': number;
+  macos:           number;
 }
 
 // ─── Helpers de cómputo ───────────────────────────────────────────────────────
@@ -15,8 +16,8 @@ export interface DownloadStats {
 /** Total Linux = deb + flatpak */
 export const linuxTotal  = (s: DownloadStats) => (s['linux-deb'] ?? 0) + (s['linux-flatpak'] ?? 0);
 
-/** Total global = windows + linux-deb + linux-flatpak */
-export const grandTotal  = (s: DownloadStats) => (s.windows ?? 0) + linuxTotal(s);
+/** Total global = windows + linux-deb + linux-flatpak + macos */
+export const grandTotal  = (s: DownloadStats) => (s.windows ?? 0) + linuxTotal(s) + (s.macos ?? 0);
 
 const fmt = (n: number) => n.toLocaleString('es-PE');
 
@@ -63,8 +64,8 @@ export function useDownloadStats() {
 // ─── Badge debajo del botón ───────────────────────────────────────────────────
 
 interface BadgeProps {
-  /** 'windows' muestra stats.windows | 'linux' muestra deb+flatpak */
-  platform: 'windows' | 'linux';
+  /** 'windows', 'linux', or 'mac' */
+  platform: 'windows' | 'linux' | 'mac';
   stats: DownloadStats | null;
   loading: boolean;
 }
@@ -72,12 +73,15 @@ interface BadgeProps {
 const LABEL: Record<BadgeProps['platform'], string> = {
   windows: 'Windows',
   linux:   'Linux',
+  mac:     'macOS'
 };
 
 export const DownloadCountBadge: React.FC<BadgeProps> = ({ platform, stats, loading }) => {
   const count = stats
     ? platform === 'windows'
       ? stats.windows ?? 0
+      : platform === 'mac'
+      ? stats.macos ?? 0
       : linuxTotal(stats)
     : 0;
 
