@@ -1,6 +1,6 @@
 import { useParams, Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Download, ArrowLeft, Check, Monitor, Apple, Clock, FileText, ExternalLink, X, Minus, Wifi, WifiOff, Music, Database, Image as ImageIcon } from 'lucide-react';
+import { Download, ArrowLeft, Check, Monitor, Apple, Clock, FileText, ExternalLink, X, Minus, Wifi, WifiOff, Music, Database, Image as ImageIcon, AlertTriangle } from 'lucide-react';
 import { getProjectById } from '../data/projects';
 import Comments from '../components/Comments';
 import { DownloadCountBadge, useDownloadStats } from '../components/DownloadCounter';
@@ -27,6 +27,8 @@ const ProjectDetailPage = () => {
   const project = getProjectById(id || '');
   const [highlightedPlatform, setHighlightedPlatform] = useState<string | null>(null);
   const [showLinuxOptions, setShowLinuxOptions] = useState(false);
+  const [showMacWarning, setShowMacWarning] = useState(false);
+  const [macDownloadUrl, setMacDownloadUrl] = useState('');
 
   // Estadísticas reales de descarga via /api/stats (Neon Postgres)
   const { stats, loading: statsLoading } = useDownloadStats();
@@ -399,10 +401,12 @@ const ProjectDetailPage = () => {
                   >
                     {download.status === 'available' && download.url ? (
                       <>
-                        <a
-                          href={`/api/download?platform=macos`}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setMacDownloadUrl(`/api/download?platform=macos`);
+                            setShowMacWarning(true);
+                          }}
                           className="flex items-center justify-between p-4 rounded-xl bg-adventist-accent text-adventist-dark font-semibold download-btn w-full group"
                         >
                           <div className="flex items-center gap-3">
@@ -413,7 +417,7 @@ const ProjectDetailPage = () => {
                             </div>
                           </div>
                           <ExternalLink size={18} className="group-hover:translate-x-1 transition-transform" />
-                        </a>
+                        </button>
                         <DownloadCountBadge platform="mac" stats={stats} loading={statsLoading} />
                       </>
                     ) : null}
@@ -527,6 +531,73 @@ const ProjectDetailPage = () => {
                   </div>
                 );
               })}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showMacWarning && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+          <button
+            type="button"
+            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+            onClick={() => setShowMacWarning(false)}
+            aria-label="Cerrar advertencia de macOS"
+          />
+          <div className="relative w-full max-w-lg glass-card rounded-2xl p-6 border border-white/20 animate-fade-in">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center">
+                  <AlertTriangle size={22} className="text-amber-400" />
+                </div>
+                <h3 className="text-xl font-bold text-white font-serif">Advertencia para macOS</h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowMacWarning(false)}
+                className="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors"
+                aria-label="Cerrar"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <div className="space-y-3 mb-6">
+              <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30">
+                <p className="text-amber-200 text-sm leading-relaxed">
+                  <strong>⚠️ Versión en fase de pruebas:</strong> Desarrollar para el ecosistema de escritorio de macos es un dolor de cabeza. Yo paso, así que esta app viene sin la bendición oficial (léase: sin pagarle 99 dólares al año a nadie).
+                </p>
+                <ul className="text-amber-200/80 text-sm mt-2 space-y-1 list-disc list-inside">
+                  <li>macOS puede mostrar una advertencia de "desarrollador no identificado" al abrir la app.</li>
+                  <li>entiendase que la aplicacion no es financiada por ninguna entidad, es un proyecto independiente, por lo que no tengo los medios para pagar la licencia de desarrollador de Apple.</li>
+                </ul>
+              </div>
+
+              <div className="p-4 rounded-xl bg-blue-500/10 border border-blue-500/30">
+                <p className="text-blue-200 text-sm leading-relaxed">
+                  <strong>💡 Cómo abrir la app:</strong> Si macOS bloquea la aplicación, haz clic derecho sobre el archivo <code className="bg-white/10 px-1 rounded">.dmg</code> y selecciona "Abrir". Luego confirma en el diálogo que aparece.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={() => setShowMacWarning(false)}
+                className="flex-1 px-4 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold transition-colors"
+              >
+                Cancelar
+              </button>
+              <a
+                href={macDownloadUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setShowMacWarning(false)}
+                className="flex-1 px-4 py-3 rounded-xl bg-adventist-accent text-adventist-dark font-semibold text-center download-btn flex items-center justify-center gap-2"
+              >
+                <Download size={18} />
+                Aceptar y Descargar
+              </a>
             </div>
           </div>
         </div>
