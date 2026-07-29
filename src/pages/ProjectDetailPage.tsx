@@ -565,11 +565,12 @@ const ProjectDetailPage = () => {
             <div className="space-y-3 mb-6">
               <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30">
                 <p className="text-amber-200 text-sm leading-relaxed">
-                  <strong>⚠️ Versión en fase de pruebas:</strong> Desarrollar para el ecosistema de escritorio de macos es un dolor de cabeza. Yo paso, así que esta app viene sin la bendición oficial (léase: sin pagarle 99 dólares al año a nadie).
+                  <strong>⚠️ Versión en fase de pruebas:</strong> Desarrollar para el ecosistema de mac es posible si cuentas con mac, las pruebas de test pasaron pero no puedo garantizar el 100% de compatibilidad aparte que tiene costo (léase: sin pagarle 99 dólares al año a nadie).
                 </p>
                 <ul className="text-amber-200/80 text-sm mt-2 space-y-1 list-disc list-inside">
                   <li>macOS puede mostrar una advertencia de "desarrollador no identificado" al abrir la app.</li>
                   <li>entiendase que la aplicacion no es financiada por ninguna entidad, es un proyecto independiente, por lo que no tengo los medios para pagar la licencia de desarrollador de Apple.</li>
+                  <li>De antemano agradecería cualquier comentario informándome su experiencia en mac</li>
                 </ul>
               </div>
 
