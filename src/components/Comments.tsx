@@ -36,12 +36,14 @@ const Comments = ({ identifier, url, title }: CommentsProps) => {
     const pageTitle = title || document.title;
 
     // Crear configuración de Disqus
-    const disqusConfig = function (this: DisqusConfig) {
+    const disqusConfig = function (this: DisqusConfig & { [key: string]: unknown }) {
       this.page = {
         url: pageUrl,
         identifier: pageIdentifier,
         title: pageTitle
       };
+      // Forzar tema claro para que el texto sea legible
+      (this as any)['colorScheme'] = 'light';
     };
 
     // Asignar al objeto global window
@@ -78,7 +80,10 @@ const Comments = ({ identifier, url, title }: CommentsProps) => {
       <p className="text-gray-400 text-sm mb-6">
         ¿Tienes preguntas, sugerencias o comentarios? ¡Déjanos saber! Puedes iniciar sesión con Google, Facebook o crear una cuenta de Disqus.
       </p>
-      <div id="disqus_thread" ref={disqusRef} className="disqus-container" />
+      {/* Fondo suave para que el iframe de Disqus (tema claro) sea legible sin romper la UX */}
+      <div className="bg-white/90 border border-slate-200/60 rounded-xl p-4 overflow-hidden">
+        <div id="disqus_thread" ref={disqusRef} className="disqus-container" />
+      </div>
       <noscript>
         Por favor habilita JavaScript para ver los comentarios.
       </noscript>
