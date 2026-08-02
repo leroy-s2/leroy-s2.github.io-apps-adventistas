@@ -462,7 +462,10 @@ const ProjectDetailPage = () => {
 
         {/* Comments Section */}
         <div className="mt-8">
-          <Comments identifier={project.id} title={project.name} />
+          {/* Sin identifier: el thread del himnario ya existe en el admin de Disqus con
+              URL https://apps-adventistas.vercel.app/project/himnario-adventista.
+              Disqus debe matchearlo por la URL exacta, no por un identifier que no coincide. */}
+          <Comments path={`/project/${project.id}`} title={project.name} />
         </div>
       </div>
 

@@ -1,76 +1,34 @@
-import { useEffect, useRef } from 'react';
+import { DiscussionEmbed } from 'disqus-react';
 
 interface CommentsProps {
-  /** Identificador único para el hilo de comentarios */
-  identifier: string;
-  /** URL de la página (opcional, se usa location.href por defecto) */
-  url?: string;
+  /** Identificador único para el hilo. Opcional: si se omite, Disqus usa la URL.
+   *  ÚSALO SOLO para threads NUEVOS (ej: "sugerencias-de-apps"). Para threads
+   *  que ya existen en admin, NO pasarlo: Disqus debe matchear por la URL exacta. */
+  identifier?: string;
+  /** Ruta canónica DENTRO del router (ej: "/project/himnario-adventista" o "/sugerencias").
+   *  SIN "#". Se combina con origin + BASE_URL para formar la URL que indexa Disqus. */
+  path: string;
   /** Título de la página (opcional) */
   title?: string;
 }
 
-// Definir la configuración de Disqus
-interface DisqusConfig {
-  page: {
-    url: string;
-    identifier: string;
-    title: string;
+const Comments = ({ identifier, path, title }: CommentsProps) => {
+  const disqusShortname = 'adventlink';
+
+  // Construir la URL canónica SIN hash (Disqus no indexa rutas hash).
+  // Normalizamos para no duplicar el "/" entre BASE_URL y path.
+  const base = import.meta.env.BASE_URL || '/';
+  const url = `${window.location.origin}${base.replace(/\/+$/, '')}${path}`;
+
+  const disqusConfig: Record<string, string> = {
+    url: url,
+    title: title || document.title,
   };
-}
-
-declare global {
-  interface Window {
-    DISQUS: {
-      reset: (config: { reload: boolean; config: () => void }) => void;
-    };
+  // Sólo agregamos identifier si se provee. Para el hilo del himnario (ya existente
+  // en el admin con URL editada) NO pasamos identifier: el match es por URL.
+  if (identifier) {
+    disqusConfig.identifier = identifier;
   }
-}
-
-const Comments = ({ identifier, url, title }: CommentsProps) => {
-  const disqusRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const disqusShortname = 'adventlink';
-    const pageUrl = url || window.location.href;
-    const pageIdentifier = identifier;
-    const pageTitle = title || document.title;
-
-    // Crear configuración de Disqus
-    const disqusConfig = function (this: DisqusConfig & { [key: string]: unknown }) {
-      this.page = {
-        url: pageUrl,
-        identifier: pageIdentifier,
-        title: pageTitle
-      };
-      // Forzar tema claro para que el texto sea legible
-      (this as any)['colorScheme'] = 'light';
-    };
-
-    // Asignar al objeto global window
-    (window as any).disqus_config = disqusConfig;
-
-    // Si Disqus ya está cargado, resetear
-    if (window.DISQUS) {
-      window.DISQUS.reset({
-        reload: true,
-        config: disqusConfig
-      });
-    } else {
-      // Cargar Disqus por primera vez
-      const script = document.createElement('script');
-      script.src = `https://${disqusShortname}.disqus.com/embed.js`;
-      script.setAttribute('data-timestamp', String(+new Date()));
-      script.async = true;
-      document.body.appendChild(script);
-    }
-
-    return () => {
-      // Cleanup: remover el iframe de Disqus al desmontar
-      if (disqusRef.current) {
-        disqusRef.current.innerHTML = '';
-      }
-    };
-  }, [identifier, url, title]);
 
   return (
     <div className="glass-card rounded-2xl p-6 animate-fade-in">
@@ -80,9 +38,11 @@ const Comments = ({ identifier, url, title }: CommentsProps) => {
       <p className="text-gray-400 text-sm mb-6">
         ¿Tienes preguntas, sugerencias o comentarios? ¡Déjanos saber! Puedes iniciar sesión con Google, Facebook o crear una cuenta de Disqus.
       </p>
-      {/* Fondo suave para que el iframe de Disqus (tema claro) sea legible sin romper la UX */}
-      <div className="bg-white/90 border border-slate-200/60 rounded-xl p-4 overflow-hidden">
-        <div id="disqus_thread" ref={disqusRef} className="disqus-container" />
+      <div className="bg-white/90 border border-slate-200/60 rounded-xl p-4 overflow-hidden disqus-custom-wrapper">
+        <DiscussionEmbed
+          shortname={disqusShortname}
+          config={disqusConfig}
+        />
       </div>
       <noscript>
         Por favor habilita JavaScript para ver los comentarios.

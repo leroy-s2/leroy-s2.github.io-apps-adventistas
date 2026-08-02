@@ -167,6 +167,7 @@ const HomePage = () => {
           <div className="mt-8">
             <Comments
               identifier="sugerencias-de-apps"
+              path="/sugerencias"
               title="Sugerencias de Apps"
             />
           </div>
