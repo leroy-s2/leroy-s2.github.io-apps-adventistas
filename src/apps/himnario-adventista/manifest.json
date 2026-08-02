@@ -1,20 +1,20 @@
 {
   "id": "himnario-adventista",
-  "version": "2.1.3",
-  "lastUpdate": "2026-07-26",
+  "version": "2.1.4",
+  "lastUpdate": "2026-08-02",
   "downloads": [
     {
       "platform": "windows",
       "url": "https://pub-4d9b18c9d97e44eb816ad7c74020d7c6.r2.dev/HimnarioAdventista-Windows.zip",
       "fileName": "HimnarioAdventista-Setup.exe",
-      "fileSize": "117.49 MB",
+      "fileSize": "117.5 MB",
       "status": "available"
     },
     {
       "platform": "linux",
       "url": "https://pub-4d9b18c9d97e44eb816ad7c74020d7c6.r2.dev/HimnarioAdventista-Linux-deb.zip",
       "fileName": "HimnarioAdventista.deb",
-      "fileSize": "101.78 MB",
+      "fileSize": "101.79 MB",
       "status": "available"
     },
     {
@@ -28,7 +28,7 @@
       "platform": "mac",
       "url": "https://pub-4d9b18c9d97e44eb816ad7c74020d7c6.r2.dev/HimnarioAdventista-macos.zip",
       "fileName": "HimnarioAdventista-macos.zip",
-      "fileSize": "102.74 MB",
+      "fileSize": "102.26 MB",
       "status": "available"
     }
   ],
