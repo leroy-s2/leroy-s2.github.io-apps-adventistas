@@ -165,9 +165,10 @@ const HomePage = () => {
           </div>
           {/* Comentarios de la comunidad con Disqus */}
           <div className="mt-8">
+            {/* Forzamos un hilo completamente nuevo usando -v2 */}
             <Comments
-              identifier="sugerencias-de-apps"
-              path="/sugerencias"
+              identifier="sugerencias-de-apps-v2"
+              path="/sugerencias-v2"
               title="Sugerencias de Apps"
             />
           </div>
