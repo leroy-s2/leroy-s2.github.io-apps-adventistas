@@ -31,28 +31,24 @@ export function useDownloadStats() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Leer caché session
-    try {
-      const raw = sessionStorage.getItem(CACHE_KEY);
-      if (raw) {
-        const { value, ts } = JSON.parse(raw) as { value: DownloadStats; ts: number };
-        if (Date.now() - ts < CACHE_TTL) {
-          setStats(value);
-          setLoading(false);
-          return;
-        }
-      }
-    } catch (_) { /**/ }
-
     const ctrl = new AbortController();
 
-    fetch('/api/stats', { signal: ctrl.signal })
-      .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json() as Promise<DownloadStats>; })
+    // Hacemos la petición siempre para tener los datos más recientes
+    fetch('/api/stats', { 
+      signal: ctrl.signal,
+      // Forzamos al navegador a no usar su propia caché
+      cache: 'no-store' 
+    })
+      .then(r => { 
+        if (!r.ok) throw new Error(`HTTP ${r.status}`); 
+        return r.json() as Promise<DownloadStats>; 
+      })
       .then(data => {
         setStats(data);
-        try { sessionStorage.setItem(CACHE_KEY, JSON.stringify({ value: data, ts: Date.now() })); } catch (_) { /**/ }
       })
-      .catch(err => { if (err.name !== 'AbortError') console.warn('[DownloadCounter]', err); })
+      .catch(err => { 
+        if (err.name !== 'AbortError') console.warn('[DownloadCounter]', err); 
+      })
       .finally(() => setLoading(false));
 
     return () => ctrl.abort();
