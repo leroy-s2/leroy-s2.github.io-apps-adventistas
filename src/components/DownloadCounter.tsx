@@ -23,8 +23,6 @@ const fmt = (n: number) => n.toLocaleString('es-PE');
 
 // ─── Hook ─────────────────────────────────────────────────────────────────────
 
-const CACHE_KEY = 'himnario_neon_stats';
-const CACHE_TTL = 60_000; // 1 minuto
 
 export function useDownloadStats() {
   const [stats, setStats]     = useState<DownloadStats | null>(null);
