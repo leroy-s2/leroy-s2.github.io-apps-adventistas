@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Download, ArrowLeft, Check, Monitor, Apple, Clock, FileText, ExternalLink, X, Minus, Wifi, WifiOff, Music, Database, Image as ImageIcon, AlertTriangle } from 'lucide-react';
 import { getProjectById } from '../data/projects';
 import Comments from '../components/Comments';
+import Seo from '../components/Seo';
 import { DownloadCountBadge, useDownloadStats } from '../components/DownloadCounter';
 
 
@@ -57,6 +58,12 @@ const ProjectDetailPage = () => {
   if (!project) {
     return (
       <div className="min-h-screen pt-24 pb-16 px-4 flex items-center justify-center">
+        <Seo
+          title="Proyecto no encontrado | AdventLink"
+          description="El proyecto que buscas no existe o ha sido eliminado."
+          path={`/project/${id ?? ''}`}
+          noindex
+        />
         <div className="text-center">
           <span className="text-6xl mb-4 block">😕</span>
           <h1 className="text-3xl font-bold text-white mb-4 font-serif">Proyecto no encontrado</h1>
@@ -118,6 +125,12 @@ const ProjectDetailPage = () => {
 
   return (
     <div className="min-h-screen pt-24 pb-16 px-4">
+      <Seo
+        title={`${project.name} para Windows y Linux | AdventLink`}
+        description={project.description}
+        path={`/project/${project.id}`}
+        image={`https://apps-adventistas.vercel.app/${project.screenshots[0]}`}
+      />
       <div className="max-w-5xl mx-auto">
         {/* Back Button */}
         <Link

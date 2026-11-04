@@ -1,4 +1,5 @@
 import ProjectCard from '../components/ProjectCard';
+import Seo from '../components/Seo';
 import { projects } from '../data/projects';
 import { Package } from 'lucide-react';
 
@@ -8,6 +9,11 @@ const DownloadsPage = () => {
 
   return (
     <div className="min-h-screen pt-24 pb-16 px-4">
+      <Seo
+        title="Descargar aplicaciones adventistas para Windows y Linux | AdventLink"
+        description="Centro de descargas de AdventLink: aplicaciones adventistas gratuitas para Windows, Linux y macOS. Himnario Adventista, recursos y herramientas para la comunidad."
+        path="/downloads"
+      />
       <div className="max-w-7xl mx-auto">
         {/* Disclaimer */}
         <div className="max-w-3xl mx-auto mb-8 px-4 py-3 bg-yellow-500/10 border border-yellow-500/30 rounded-xl text-center animate-fade-in">

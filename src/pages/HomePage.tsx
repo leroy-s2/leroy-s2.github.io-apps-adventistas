@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Monitor, Apple, Heart, Lightbulb, Wifi } from 'lucide-react';
 import Comments from '../components/Comments';
+import Seo from '../components/Seo';
 import { getProjectById } from '../data/projects';
 import { InstallsStatCard, useDownloadStats } from '../components/DownloadCounter';
 
@@ -20,6 +21,11 @@ const HomePage = () => {
   }
   return (
     <div className="min-h-screen pt-16">
+      <Seo
+        title="Himnario Adventista para Windows y Linux | AdventLink"
+        description="Descarga gratis el Himnario Adventista para Windows y Linux. Todos los himnos con letra, versión cantada y pista instrumental. Funciona online y offline."
+        path="/"
+      />
       {/* Hero Section - Himnario Adventista */}
       <section className="py-12 md:py-20 px-4">
         <div className="max-w-7xl mx-auto">
@@ -127,9 +133,9 @@ const HomePage = () => {
               Apoya este Proyecto
             </h2>
             <p className="text-gray-300 mb-6">
-              Esta aplicación es completamente gratuita y siempre lo será. Sin embargo, si deseas
-              apoyar el desarrollo de más aplicaciones para la comunidad adventista, puedes hacerlo
-              de manera voluntaria.
+              Esta aplicación es completamente gratuita y siempre lo será. Sin embargo, si te sirvio y quieres apoyar el proyecto, considera hacer una donación. 
+              El tiempo invertido en el desarrollo y mantenimiento de esta aplicación es significativo, y tu apoyo ayuda a mantener los servidores y desarrollar nuevas funcionalidades.
+
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a
