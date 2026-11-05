@@ -3,7 +3,12 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/logo.png" />
+  <link rel="icon" href="/favicon.ico" sizes="48x48" />
+  <link rel="icon" type="image/png" sizes="48x48" href="/icons/icon-48.png" />
+  <link rel="icon" type="image/png" sizes="96x96" href="/icons/icon-96.png" />
+  <link rel="icon" type="image/png" sizes="144x144" href="/icons/icon-144.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Himnario Adventista para Windows y Linux | AdventLink</title>
@@ -52,6 +57,13 @@
         "inLanguage": "es"
       },
       {
+        "@type": "Organization",
+        "@id": "https://apps-adventistas.vercel.app/#organization",
+        "name": "AdventLink",
+        "url": "https://apps-adventistas.vercel.app/",
+        "logo": "https://apps-adventistas.vercel.app/icons/icon-192.png"
+      },
+      {
         "@type": "SoftwareApplication",
         "@id": "https://apps-adventistas.vercel.app/project/himnario-adventista#app",
         "name": "Himnario Adventista",
@@ -69,9 +81,7 @@
         },
         "downloadUrl": "https://pub-4d9b18c9d97e44eb816ad7c74020d7c6.r2.dev/HimnarioAdventista-Windows.zip",
         "publisher": {
-          "@type": "Organization",
-          "name": "AdventLink",
-          "url": "https://apps-adventistas.vercel.app/"
+          "@id": "https://apps-adventistas.vercel.app/#organization"
         }
       }
     ]
